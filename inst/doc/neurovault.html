@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Vignette Author" />
+
+<meta name="date" content="2017-11-30" />
+
+<title>Neurovault API</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceLine, a.sourceLine { display: inline-block; min-height: 1.25em; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; }
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+div.sourceLine, a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource div.sourceLine, .numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource div.sourceLine::before, .numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em; }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; color: #aaaaaa;  padding-left: 4px; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; color = initial; }
+}
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.bn { color: #40a070; } /* BaseN */
+code span.fl { color: #40a070; } /* Float */
+code span.ch { color: #4070a0; } /* Char */
+code span.st { color: #4070a0; } /* String */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.ot { color: #007020; } /* Other */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.fu { color: #06287e; } /* Function */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code span.cn { color: #880000; } /* Constant */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.im { } /* Import */
+code span.va { color: #19177c; } /* Variable */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.op { color: #666666; } /* Operator */
+code span.bu { } /* BuiltIn */
+code span.ex { } /* Extension */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.at { color: #7d9029; } /* Attribute */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Neurovault API</h1>
+<h4 class="author"><em>Vignette Author</em></h4>
+<h4 class="date"><em>2017-11-30</em></h4>
+
+
+
+<p>The NeuroVault database (<a href="https://neurovault.org/" class="uri">https://neurovault.org/</a>) is a: &gt; place where researchers can publicly store and share unthresholded statistical maps, parcellations, and atlases produced by MRI and PET studies.</p>
+<p>This allows researchers to compare results from multiple studies.</p>
+<p>The NeuroVault API (<a href="https://neurovault.org/api-docs" class="uri">https://neurovault.org/api-docs</a>) allows users to access this data with some calls to a RESTful API.</p>
+<p>The <code>neurovault</code> package wraps these commands using <code>httr</code>. Here we will look</p>
+<pre class="sourceCode r"><code class="sourceCode r"><div class="sourceLine" id="1" href="#1" data-line-number="1"><span class="kw">library</span>(neurovault)</div>
+<div class="sourceLine" id="2" href="#2" data-line-number="2">res =<span class="st"> </span><span class="kw">nv_collection_images</span>(<span class="dt">id =</span> <span class="dv">77</span>)</div>
+<div class="sourceLine" id="3" href="#3" data-line-number="3"><span class="co">#&gt; GET command is:</span></div>
+<div class="sourceLine" id="4" href="#4" data-line-number="4"><span class="co">#&gt; Response [https://neurovault.org/api/collections/77/images/]</span></div>
+<div class="sourceLine" id="5" href="#5" data-line-number="5"><span class="co">#&gt;   Date: 2017-11-30 19:25</span></div>
+<div class="sourceLine" id="6" href="#6" data-line-number="6"><span class="co">#&gt;   Status: 200</span></div>
+<div class="sourceLine" id="7" href="#7" data-line-number="7"><span class="co">#&gt;   Content-Type: application/json; charset=utf-8</span></div>
+<div class="sourceLine" id="8" href="#8" data-line-number="8"><span class="co">#&gt;   Size: 5.11 kB</span></div>
+<div class="sourceLine" id="9" href="#9" data-line-number="9">df =<span class="st"> </span><span class="kw">results_to_df</span>(res<span class="op">$</span>content<span class="op">$</span>results)</div>
+<div class="sourceLine" id="10" href="#10" data-line-number="10"><span class="kw">head</span>(df)</div>
+<div class="sourceLine" id="11" href="#11" data-line-number="11"><span class="co">#&gt;                                  url  id</span></div>
+<div class="sourceLine" id="12" href="#12" data-line-number="12"><span class="co">#&gt; 1 https://neurovault.org/images/330/ 330</span></div>
+<div class="sourceLine" id="13" href="#13" data-line-number="13"><span class="co">#&gt; 2 https://neurovault.org/images/331/ 331</span></div>
+<div class="sourceLine" id="14" href="#14" data-line-number="14"><span class="co">#&gt; 3 https://neurovault.org/images/332/ 332</span></div>
+<div class="sourceLine" id="15" href="#15" data-line-number="15"><span class="co">#&gt; 4 https://neurovault.org/images/333/ 333</span></div>
+<div class="sourceLine" id="16" href="#16" data-line-number="16"><span class="co">#&gt;                                                            file</span></div>
+<div class="sourceLine" id="17" href="#17" data-line-number="17"><span class="co">#&gt; 1     https://neurovault.org/media/images/77/zstat-young.nii.gz</span></div>
+<div class="sourceLine" id="18" href="#18" data-line-number="18"><span class="co">#&gt; 2       https://neurovault.org/media/images/77/zstat-old.nii.gz</span></div>
+<div class="sourceLine" id="19" href="#19" data-line-number="19"><span class="co">#&gt; 3 https://neurovault.org/media/images/77/zstat-young-old.nii.gz</span></div>
+<div class="sourceLine" id="20" href="#20" data-line-number="20"><span class="co">#&gt; 4 https://neurovault.org/media/images/77/zstat-old-young.nii.gz</span></div>
+<div class="sourceLine" id="21" href="#21" data-line-number="21"><span class="co">#&gt;                               collection collection_id file_size</span></div>
+<div class="sourceLine" id="22" href="#22" data-line-number="22"><span class="co">#&gt; 1 https://neurovault.org/collections/77/            77    537724</span></div>
+<div class="sourceLine" id="23" href="#23" data-line-number="23"><span class="co">#&gt; 2 https://neurovault.org/collections/77/            77    534984</span></div>
+<div class="sourceLine" id="24" href="#24" data-line-number="24"><span class="co">#&gt; 3 https://neurovault.org/collections/77/            77    538597</span></div>
+<div class="sourceLine" id="25" href="#25" data-line-number="25"><span class="co">#&gt; 4 https://neurovault.org/collections/77/            77    538602</span></div>
+<div class="sourceLine" id="26" href="#26" data-line-number="26"><span class="co">#&gt;             cognitive_paradigm_cogatlas cognitive_paradigm_cogatlas_id</span></div>
+<div class="sourceLine" id="27" href="#27" data-line-number="27"><span class="co">#&gt; 1 color-word stroop with task switching              trm_5542841f3dcd5</span></div>
+<div class="sourceLine" id="28" href="#28" data-line-number="28"><span class="co">#&gt; 2 color-word stroop with task switching              trm_5542841f3dcd5</span></div>
+<div class="sourceLine" id="29" href="#29" data-line-number="29"><span class="co">#&gt; 3 color-word stroop with task switching              trm_5542841f3dcd5</span></div>
+<div class="sourceLine" id="30" href="#30" data-line-number="30"><span class="co">#&gt; 4 color-word stroop with task switching              trm_5542841f3dcd5</span></div>
+<div class="sourceLine" id="31" href="#31" data-line-number="31"><span class="co">#&gt;   cognitive_contrast_cogatlas cognitive_contrast_cogatlas_id map_type</span></div>
+<div class="sourceLine" id="32" href="#32" data-line-number="32"><span class="co">#&gt; 1                          NA                             NA    Z map</span></div>
+<div class="sourceLine" id="33" href="#33" data-line-number="33"><span class="co">#&gt; 2                          NA                             NA    Z map</span></div>
+<div class="sourceLine" id="34" href="#34" data-line-number="34"><span class="co">#&gt; 3                          NA                             NA    Z map</span></div>
+<div class="sourceLine" id="35" href="#35" data-line-number="35"><span class="co">#&gt; 4                          NA                             NA    Z map</span></div>
+<div class="sourceLine" id="36" href="#36" data-line-number="36"><span class="co">#&gt;   analysis_level                   name description</span></div>
+<div class="sourceLine" id="37" href="#37" data-line-number="37"><span class="co">#&gt; 1             NA     zstat-young.nii.gz      FSL4.1</span></div>
+<div class="sourceLine" id="38" href="#38" data-line-number="38"><span class="co">#&gt; 2             NA       zstat-old.nii.gz      FSL4.1</span></div>
+<div class="sourceLine" id="39" href="#39" data-line-number="39"><span class="co">#&gt; 3             NA zstat-young-old.nii.gz      FSL4.1</span></div>
+<div class="sourceLine" id="40" href="#40" data-line-number="40"><span class="co">#&gt; 4             NA zstat-old-young.nii.gz      FSL4.1</span></div>
+<div class="sourceLine" id="41" href="#41" data-line-number="41"><span class="co">#&gt;                      add_date                 modify_date is_valid</span></div>
+<div class="sourceLine" id="42" href="#42" data-line-number="42"><span class="co">#&gt; 1 2016-01-21T17:22:27.296097Z 2016-01-27T21:44:15.371143Z     TRUE</span></div>
+<div class="sourceLine" id="43" href="#43" data-line-number="43"><span class="co">#&gt; 2 2016-01-21T17:23:08.244431Z 2016-01-27T21:47:02.792579Z     TRUE</span></div>
+<div class="sourceLine" id="44" href="#44" data-line-number="44"><span class="co">#&gt; 3 2016-01-21T17:21:38.899847Z 2016-01-27T21:41:38.264132Z     TRUE</span></div>
+<div class="sourceLine" id="45" href="#45" data-line-number="45"><span class="co">#&gt; 4 2016-01-21T17:21:38.923925Z 2016-01-27T21:41:38.335981Z     TRUE</span></div>
+<div class="sourceLine" id="46" href="#46" data-line-number="46"><span class="co">#&gt;   surface_left_file surface_right_file data_origin figure</span></div>
+<div class="sourceLine" id="47" href="#47" data-line-number="47"><span class="co">#&gt; 1                NA                 NA      volume       </span></div>
+<div class="sourceLine" id="48" href="#48" data-line-number="48"><span class="co">#&gt; 2                NA                 NA      volume       </span></div>
+<div class="sourceLine" id="49" href="#49" data-line-number="49"><span class="co">#&gt; 3                NA                 NA      volume       </span></div>
+<div class="sourceLine" id="50" href="#50" data-line-number="50"><span class="co">#&gt; 4                NA                 NA      volume       </span></div>
+<div class="sourceLine" id="51" href="#51" data-line-number="51"><span class="co">#&gt;                                                      thumbnail</span></div>
+<div class="sourceLine" id="52" href="#52" data-line-number="52"><span class="co">#&gt; 1   https://neurovault.org/media/images/77/glass_brain_330.jpg</span></div>
+<div class="sourceLine" id="53" href="#53" data-line-number="53"><span class="co">#&gt; 2   https://neurovault.org/media/images/77/glass_brain_331.jpg</span></div>
+<div class="sourceLine" id="54" href="#54" data-line-number="54"><span class="co">#&gt; 3 https://neurovault.org/media/images/77/glass_brain_332_1.jpg</span></div>
+<div class="sourceLine" id="55" href="#55" data-line-number="55"><span class="co">#&gt; 4 https://neurovault.org/media/images/77/glass_brain_333_1.jpg</span></div>
+<div class="sourceLine" id="56" href="#56" data-line-number="56"><span class="co">#&gt;                                         reduced_representation</span></div>
+<div class="sourceLine" id="57" href="#57" data-line-number="57"><span class="co">#&gt; 1 https://neurovault.org/media/images/77/transform_4mm_330.npy</span></div>
+<div class="sourceLine" id="58" href="#58" data-line-number="58"><span class="co">#&gt; 2 https://neurovault.org/media/images/77/transform_4mm_331.npy</span></div>
+<div class="sourceLine" id="59" href="#59" data-line-number="59"><span class="co">#&gt; 3 https://neurovault.org/media/images/77/transform_4mm_332.npy</span></div>
+<div class="sourceLine" id="60" href="#60" data-line-number="60"><span class="co">#&gt; 4 https://neurovault.org/media/images/77/transform_4mm_333.npy</span></div>
+<div class="sourceLine" id="61" href="#61" data-line-number="61"><span class="co">#&gt;   is_thresholded perc_bad_voxels not_mni brain_coverage</span></div>
+<div class="sourceLine" id="62" href="#62" data-line-number="62"><span class="co">#&gt; 1          FALSE        84.39691   FALSE       55.60851</span></div>
+<div class="sourceLine" id="63" href="#63" data-line-number="63"><span class="co">#&gt; 2          FALSE        84.39691   FALSE       55.60851</span></div>
+<div class="sourceLine" id="64" href="#64" data-line-number="64"><span class="co">#&gt; 3          FALSE        84.39691   FALSE       55.60851</span></div>
+<div class="sourceLine" id="65" href="#65" data-line-number="65"><span class="co">#&gt; 4          FALSE        84.39691   FALSE       55.60851</span></div>
+<div class="sourceLine" id="66" href="#66" data-line-number="66"><span class="co">#&gt;   perc_voxels_outside number_of_subjects  modality statistic_parameters</span></div>
+<div class="sourceLine" id="67" href="#67" data-line-number="67"><span class="co">#&gt; 1            9.785711                 64 fMRI-BOLD                   NA</span></div>
+<div class="sourceLine" id="68" href="#68" data-line-number="68"><span class="co">#&gt; 2            9.785711                 64 fMRI-BOLD                   NA</span></div>
+<div class="sourceLine" id="69" href="#69" data-line-number="69"><span class="co">#&gt; 3            9.785711                 64 fMRI-BOLD                   NA</span></div>
+<div class="sourceLine" id="70" href="#70" data-line-number="70"><span class="co">#&gt; 4            9.785711                 64 fMRI-BOLD                   NA</span></div>
+<div class="sourceLine" id="71" href="#71" data-line-number="71"><span class="co">#&gt;   smoothness_fwhm                  contrast_definition</span></div>
+<div class="sourceLine" id="72" href="#72" data-line-number="72"><span class="co">#&gt; 1              NA stroop inference versus color naming</span></div>
+<div class="sourceLine" id="73" href="#73" data-line-number="73"><span class="co">#&gt; 2              NA stroop inference versus color naming</span></div>
+<div class="sourceLine" id="74" href="#74" data-line-number="74"><span class="co">#&gt; 3              NA stroop inference versus color naming</span></div>
+<div class="sourceLine" id="75" href="#75" data-line-number="75"><span class="co">#&gt; 4              NA stroop inference versus color naming</span></div>
+<div class="sourceLine" id="76" href="#76" data-line-number="76"><span class="co">#&gt;   contrast_definition_cogatlas cognitive_paradigm_description_url</span></div>
+<div class="sourceLine" id="77" href="#77" data-line-number="77"><span class="co">#&gt; 1                                                              NA</span></div>
+<div class="sourceLine" id="78" href="#78" data-line-number="78"><span class="co">#&gt; 2                                                              NA</span></div>
+<div class="sourceLine" id="79" href="#79" data-line-number="79"><span class="co">#&gt; 3                                                              NA</span></div>
+<div class="sourceLine" id="80" href="#80" data-line-number="80"><span class="co">#&gt; 4                                                              NA</span></div>
+<div class="sourceLine" id="81" href="#81" data-line-number="81"><span class="co">#&gt;      image_type</span></div>
+<div class="sourceLine" id="82" href="#82" data-line-number="82"><span class="co">#&gt; 1 statistic_map</span></div>
+<div class="sourceLine" id="83" href="#83" data-line-number="83"><span class="co">#&gt; 2 statistic_map</span></div>
+<div class="sourceLine" id="84" href="#84" data-line-number="84"><span class="co">#&gt; 3 statistic_map</span></div>
+<div class="sourceLine" id="85" href="#85" data-line-number="85"><span class="co">#&gt; 4 statistic_map</span></div></code></pre>
+<section id="atlases" class="level2">
+<h2>Atlases</h2>
+<p>We can download and view a labeled atlas for the results:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><div class="sourceLine" id="1" href="#1" data-line-number="1"><span class="kw">library</span>(neurobase)</div>
+<div class="sourceLine" id="2" href="#2" data-line-number="2"><span class="co">#&gt; Loading required package: oro.nifti</span></div>
+<div class="sourceLine" id="3" href="#3" data-line-number="3"><span class="co">#&gt; oro.nifti 0.9.2</span></div>
+<div class="sourceLine" id="4" href="#4" data-line-number="4">res =<span class="st"> </span><span class="kw">download_nv_atlas</span>(<span class="dt">id =</span> <span class="dv">1408</span>)</div>
+<div class="sourceLine" id="5" href="#5" data-line-number="5"><span class="co">#&gt; GET command is:</span></div>
+<div class="sourceLine" id="6" href="#6" data-line-number="6"><span class="co">#&gt; Response [https://neurovault.org/api/atlases/1408/]</span></div>
+<div class="sourceLine" id="7" href="#7" data-line-number="7"><span class="co">#&gt;   Date: 2017-11-30 19:25</span></div>
+<div class="sourceLine" id="8" href="#8" data-line-number="8"><span class="co">#&gt;   Status: 200</span></div>
+<div class="sourceLine" id="9" href="#9" data-line-number="9"><span class="co">#&gt;   Content-Type: application/json; charset=utf-8</span></div>
+<div class="sourceLine" id="10" href="#10" data-line-number="10"><span class="co">#&gt;   Size: 751 B</span></div>
+<div class="sourceLine" id="11" href="#11" data-line-number="11"><span class="co">#&gt; </span></div>
+<div class="sourceLine" id="12" href="#12" data-line-number="12"><span class="co">#&gt; </span></div>
+<div class="sourceLine" id="13" href="#13" data-line-number="13">  <span class="op">|</span><span class="st">                                                                       </span></div>
+<div class="sourceLine" id="14" href="#14" data-line-number="14"><span class="st">  </span><span class="er">|</span><span class="st">                                                                 </span><span class="er">|</span><span class="st">   </span><span class="dv">0</span>%</div>
+<div class="sourceLine" id="15" href="#15" data-line-number="15">  <span class="op">|</span><span class="st">                                                                       </span></div>
+<div class="sourceLine" id="16" href="#16" data-line-number="16"><span class="st">  </span><span class="er">|=================================================================|</span><span class="st"> </span><span class="dv">100</span>%</div>
+<div class="sourceLine" id="17" href="#17" data-line-number="17"><span class="co">#&gt; </span></div>
+<div class="sourceLine" id="18" href="#18" data-line-number="18">  <span class="op">|</span><span class="st">                                                                       </span></div>
+<div class="sourceLine" id="19" href="#19" data-line-number="19"><span class="st">  </span><span class="er">|</span><span class="st">                                                                 </span><span class="er">|</span><span class="st">   </span><span class="dv">0</span>%</div>
+<div class="sourceLine" id="20" href="#20" data-line-number="20">  <span class="op">|</span><span class="st">                                                                       </span></div>
+<div class="sourceLine" id="21" href="#21" data-line-number="21"><span class="st">  </span><span class="er">|=================================================================|</span><span class="st"> </span><span class="dv">100</span>%</div>
+<div class="sourceLine" id="22" href="#22" data-line-number="22">atlas =<span class="st"> </span><span class="kw">readnii</span>(res<span class="op">$</span>outfile[<span class="dv">1</span>])</div>
+<div class="sourceLine" id="23" href="#23" data-line-number="23"><span class="kw">ortho2</span>(atlas)</div></code></pre>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</section>
+<section id="nidm-results" class="level2">
+<h2>NIDM Results</h2>
+<p>You can access the neuroimaging data model (NIDM) (<a href="http://nidm.nidash.org/" class="uri">http://nidm.nidash.org/</a>) information using:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><div class="sourceLine" id="1" href="#1" data-line-number="1">nidm =<span class="st"> </span><span class="kw">nv_nidm_results</span>()</div>
+<div class="sourceLine" id="2" href="#2" data-line-number="2"><span class="co">#&gt; GET command is:</span></div>
+<div class="sourceLine" id="3" href="#3" data-line-number="3"><span class="co">#&gt; Response [https://neurovault.org/api/nidm_results/]</span></div>
+<div class="sourceLine" id="4" href="#4" data-line-number="4"><span class="co">#&gt;   Date: 2017-11-30 19:25</span></div>
+<div class="sourceLine" id="5" href="#5" data-line-number="5"><span class="co">#&gt;   Status: 200</span></div>
+<div class="sourceLine" id="6" href="#6" data-line-number="6"><span class="co">#&gt;   Content-Type: application/json; charset=utf-8</span></div>
+<div class="sourceLine" id="7" href="#7" data-line-number="7"><span class="co">#&gt;   Size: 201 kB</span></div>
+<div class="sourceLine" id="8" href="#8" data-line-number="8"><span class="co">#&gt; Multiple pages must be called - more results than 1 call</span></div>
+<div class="sourceLine" id="9" href="#9" data-line-number="9"><span class="co">#&gt; GET command is:</span></div>
+<div class="sourceLine" id="10" href="#10" data-line-number="10"><span class="co">#&gt; Response [https://neurovault.org/api/nidm_results/?limit=100&amp;offset=100]</span></div>
+<div class="sourceLine" id="11" href="#11" data-line-number="11"><span class="co">#&gt;   Date: 2017-11-30 19:25</span></div>
+<div class="sourceLine" id="12" href="#12" data-line-number="12"><span class="co">#&gt;   Status: 200</span></div>
+<div class="sourceLine" id="13" href="#13" data-line-number="13"><span class="co">#&gt;   Content-Type: application/json; charset=utf-8</span></div>
+<div class="sourceLine" id="14" href="#14" data-line-number="14"><span class="co">#&gt;   Size: 272 kB</span></div>
+<div class="sourceLine" id="15" href="#15" data-line-number="15"><span class="co">#&gt; GET command is:</span></div>
+<div class="sourceLine" id="16" href="#16" data-line-number="16"><span class="co">#&gt; Response [https://neurovault.org/api/nidm_results/?limit=100&amp;offset=200]</span></div>
+<div class="sourceLine" id="17" href="#17" data-line-number="17"><span class="co">#&gt;   Date: 2017-11-30 19:26</span></div>
+<div class="sourceLine" id="18" href="#18" data-line-number="18"><span class="co">#&gt;   Status: 200</span></div>
+<div class="sourceLine" id="19" href="#19" data-line-number="19"><span class="co">#&gt;   Content-Type: application/json; charset=utf-8</span></div>
+<div class="sourceLine" id="20" href="#20" data-line-number="20"><span class="co">#&gt;   Size: 432 kB</span></div>
+<div class="sourceLine" id="21" href="#21" data-line-number="21"><span class="co">#&gt; GET command is:</span></div>
+<div class="sourceLine" id="22" href="#22" data-line-number="22"><span class="co">#&gt; Response [https://neurovault.org/api/nidm_results/?limit=100&amp;offset=300]</span></div>
+<div class="sourceLine" id="23" href="#23" data-line-number="23"><span class="co">#&gt;   Date: 2017-11-30 19:26</span></div>
+<div class="sourceLine" id="24" href="#24" data-line-number="24"><span class="co">#&gt;   Status: 500</span></div>
+<div class="sourceLine" id="25" href="#25" data-line-number="25"><span class="co">#&gt;   Content-Type: text/html</span></div>
+<div class="sourceLine" id="26" href="#26" data-line-number="26"><span class="co">#&gt;   Size: 27 B</span></div>
+<div class="sourceLine" id="27" href="#27" data-line-number="27"><span class="co">#&gt; Warning in get_results(url = next_url, query = query, verbose = verbose, :</span></div>
+<div class="sourceLine" id="28" href="#28" data-line-number="28"><span class="co">#&gt; Internal Server Error (HTTP 500).</span></div>
+<div class="sourceLine" id="29" href="#29" data-line-number="29"><span class="co">#&gt; No encoding supplied: defaulting to UTF-8.</span></div>
+<div class="sourceLine" id="30" href="#30" data-line-number="30"><span class="co">#&gt; Warning in append_results(content = L$content, verbose = verbose, max_count</span></div>
+<div class="sourceLine" id="31" href="#31" data-line-number="31"><span class="co">#&gt; = max_count, : Not all records received, may be a problem with the call</span></div></code></pre>
+</section>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
